@@ -1,0 +1,38 @@
+{
+	"name": "Linqueue",
+	"description": "Linqueue is a link queue. You add your link from the context menu(mouse right click) open later when you want to from a list.",
+	"manifest_version": 2,
+	"version": "1.0",
+	"background": {
+		"scripts": [
+			"js/vue-csp.min.js",
+			"js/background.js",
+			"js/moment.min.js"
+		]
+	},
+	"content_scripts": [{
+		"matches": [
+			"<all_urls>"
+		],
+		"js": [
+			"js/jquery.min.js",
+			"js/content.js"
+		]
+	}],
+	"permissions": [
+		"webRequest",
+		"*://*/*",
+		"contextMenus", 
+		"tabs",
+		"storage"
+	],
+	"browser_action": {
+		"default_icon": "icon/linqueue.png",
+		"default_title": "Linqueue",
+		"default_popup": "linqueue.html"
+	},
+	"icons": {
+		"16": "icon/linqueue.png"
+	},
+	"content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'"
+}
