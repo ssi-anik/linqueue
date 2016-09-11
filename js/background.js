@@ -6,7 +6,7 @@ function saveLink(info, tab){
 
 	chrome.tabs.sendMessage(tab.id, message, function(response) {
 		//Title text got from content script
-		var title = (response && response.value)? response.value : "Title not found";
+		var title = (response && response.title)? response.title : "Title not found";
 		
 		var url = info.linkUrl; // get the url
 		value.title = title; // set the title to value
