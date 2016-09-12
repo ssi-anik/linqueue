@@ -1,6 +1,8 @@
 var application = new Vue({
 	el: "#app",
 	data:{
+		newTabUrl: "chrome://newtab/",
+		tab: null,
 		rows: [],
 		filterable: ""
 	},
@@ -29,16 +31,29 @@ var application = new Vue({
     		this.linkOpener(url);
 			this.deleteLink(key);
 		},
+		isEmptyTab: function(){
+			// get the current tab information
+			var that = this;
+			chrome.tabs.query({active: true}, function(tabs){
+				that.tab = tabs[0];
+			});
+		},
 		deleteLink: function(key){
 			window.localStorage.removeItem(key);
 			this.getStoredLinks();
 		},
 		linkOpener: function(link){
-			chrome.tabs.create({ url: link });
+			if(this.tab.url == this.newTabUrl){
+				chrome.tabs.update(this.tab.id, { url: link});
+			} else{
+				chrome.tabs.create({ url: link });
+			}
 		}
 	},
 	ready: function(){
 		this.getStoredLinks();
+		// is called here, cause the callback is promise needs time.
+		this.isEmptyTab();
 	}
 });
 // load on start up.
